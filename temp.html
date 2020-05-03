@@ -1,0 +1,2258 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+
+    <head>
+        
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+        <meta name="description" content="Freesound: collaborative database of creative-commons licensed sound for musicians and sound lovers. Have you freed your sound today?" />
+        <meta name="keywords" content="free, sound" />
+        <link rel="stylesheet" type="text/css" href="/media/css/all.css?v=1311" />
+        <!--[if IE 6]><link rel="stylesheet" type="text/css" href="/media/css/ie6.css?v=1311" /><![endif]-->
+        <link rel="icon" href="/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+	<meta name="msapplication-TileColor" content="#00aba9">
+	<meta name="theme-color" content="#ffffff">
+        <title>Freesound - sound search</title>
+        <script src="/media/js/jquery-1.5.2.min.js" type="text/javascript"></script>
+        <script src="/media/js/jquery-ui-1.8.11.custom.min.js" type="text/javascript"></script>
+        <script src="/media/js/jquery.cookie.js" type="text/javascript"></script>
+        <script src="/media/js/swfobject.js" type="text/javascript"></script>
+        <script src="/media/js/jquery.watermarkinput.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            var isLoggedIn = false;
+            var loginUrl = "/home/login/?next=/search/";
+            $(document).ready(function() {
+                 $("#search input[name=q]").Watermark("search sounds");
+            });
+            function clearWatermark(){
+			   $.Watermark.HideAll()
+			   return true
+			}
+        </script>
+        <script src="/media/js/freesound.js?v=1311" type="text/javascript"></script>
+    	<script src="/media/js/ajax_utils.js" type="text/javascript"></script>
+        <!-- next couple of lines are used for the HTML player -->
+        <link href='//fonts.googleapis.com/css?family=Inconsolata&v1' rel='stylesheet' type='text/css' />
+        <link rel="stylesheet" type="text/css" href="/media/html_player/player.css" />
+        <script src="/media/html_player/soundmanager2.js"></script>
+        <script type="text/javascript" src="/media/html_player/player.js"></script>
+        <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-86270-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+        
+    </head>
+
+    <body id="" onload="" onunload="">
+
+        
+
+        <div id="header">
+            <div id="account_nav">
+                
+                    <a href="/home/register/">Register</a>
+                    <a href="/home/login/?next=/search/">Log In</a>
+                
+            <a href="/home/upload/" id="upload_button"></a>
+        </div>
+
+        <a href="/" id="logo"></a>
+
+        <div id="search">
+        <form method="get" onsubmit="return clearWatermark()" action="/search/">
+            <fieldset>
+               <input type="text" name="q" value="" size="30" />
+               <input type="submit" value="" id="search_submit" />
+            </fieldset>
+        </form>
+        </div>
+
+        <ul id="site_nav">
+            
+            <li class="active_tab"><a href="/browse/" id="site_nav_sounds"><span class="site_nav_icon"></span>Sounds</a></li>
+            <li class=""><a href="/forum/" id="site_nav_forums"><span class="site_nav_icon"></span>Forums</a></li>
+            <li class=""><a href="/people/" id="site_nav_people"><span class="site_nav_icon"></span>People</a></li>
+            <li class=""><a href="/help/faq/" id="site_nav_help"><span class="site_nav_icon"></span>Help</a></li>
+
+        </ul>
+    </div>
+
+        <div id="wrapper">
+        <div id="container">
+
+        
+
+        
+<div id="content_full"> <!-- START of Content area -->
+
+
+<form id="search_form" method="get" onsubmit="return addAdvancedSearchOptionsFilters()"  action="/search/">
+    <fieldset>
+
+       <input id="query_input" type="text" name="q" value="cry" size="30" />
+       <input id="filter_query" type="hidden" name="f" value="" size="30" />
+       
+       <select name="s">
+            
+            <option value="score desc"selected="selected">Automatic by relevance</option>
+            
+            <option value="duration desc">Duration (long first)</option>
+            
+            <option value="duration asc">Duration (short first)</option>
+            
+            <option value="created desc">Date added (newest first)</option>
+            
+            <option value="created asc">Date added (oldest first)</option>
+            
+            <option value="num_downloads desc">Downloads (most first)</option>
+            
+            <option value="num_downloads asc">Downloads (least first)</option>
+            
+            <option value="avg_rating desc">Rating (highest first)</option>
+            
+            <option value="avg_rating asc">Rating (lowest first)</option>
+            
+       </select>
+
+       <input type="submit" value="search" id="search_submit"/>
+
+       <script type="text/javascript">
+
+    function showAdvancedSearchOptions()
+    {
+        $("#advanced_search_hidden").val(1);
+        $("#enableShowButton").hide();
+        $("#advanced_search_options").show('blind', {}, 500, function() {});
+
+    }
+
+    function hideAdvancedSearchOptions()
+    {
+        $("#advanced_search_hidden").val(0);
+        $("#advanced_search_options").hide('blind', {}, 500, function() {});
+        $("#enableShowButton").show();
+    }
+
+    function set_hidden_grouping_value(){
+        if ($("#grouping_geotagged").is(':checked')){
+            $("#grouping_geotagged_hidden").val("1")
+        }else{
+            $("#grouping_geotagged_hidden").val("")
+        }
+    }
+
+</script>
+
+
+<div id="advanced_search_options" class="advanced_search_options" style="display:none">
+<input id="advanced_search_hidden" type="hidden" name="advanced" value="0" />
+
+<div style="margin-top:8px;"></div>Search in:&nbsp
+<label><input type="checkbox" name="a_tag" value="1" /> Tags</label>&nbsp&nbsp
+<label><input type="checkbox" name="a_filename" value="1" /> File names</label>&nbsp&nbsp
+<label><input type="checkbox" name="a_description" value="1" /> Descriptions</label>&nbsp&nbsp
+<label><input type="checkbox" name="a_packname" value="1" /> Pack names</label>&nbsp&nbsp
+<label><input type="checkbox" name="a_soundid" value="1" /> Sound Ids</label>&nbsp&nbsp
+<label><input type="checkbox" name="a_username" value="1" /> User names</label>
+<span class="advanced_search_indication">(if none is selected, all will be used)</span>
+<br>
+
+Duration between <input class="inputtext" id="filter_duration_min" value="0" size="6" /> <label for="filter_duration_min">(min)</label>
+and <input class="inputtext" id="filter_duration_max" value="*" size="6" /> <label for="filter_duration_max">(max)</label> seconds<br>
+<input id="filter_is_geotagged" type="checkbox" value="1" /> <label for="filter_is_geotagged">Only geotagged sounds</label><br>
+<input id="grouping_geotagged" type="checkbox" onchange="set_hidden_grouping_value()" checked/> <label for="grouping_geotagged">Group sounds by pack</label>
+<input id="grouping_geotagged_hidden" type="hidden" name="g" value="1" />
+
+<br>
+<span class="advanced_search_options_button"><a style="cursor:pointer;" onclick='hideAdvancedSearchOptions();'>Hide advanced search options</a></span>
+</div>
+
+<span id="enableShowButton" class="advanced_search_options_button" >
+    <div style="margin-top:4px;"></div>
+    <a style="cursor:pointer;" onclick='showAdvancedSearchOptions();'>Show advanced search options</a>
+</span>
+
+
+        <br/>
+
+    </fieldset>
+</form>
+
+
+<p id="filter_query_display">
+
+
+
+</p>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+
+        // Fill advanced search fields that were passen on the f parameter
+        // Duration
+
+        if (getFilterValue("duration","min") == "")
+            $("#filter_duration_min").val("0");
+        else
+            $("#filter_duration_min").val(getFilterValue("duration","min"));
+
+        if (getFilterValue("duration","max") == "")
+            $("#filter_duration_max").val("*");
+        else
+            $("#filter_duration_max").val(getFilterValue("duration","max"));
+
+        // Geotagged
+        if (getFilterValue("is_geotagged")==1)
+               $("#filter_is_geotagged").attr('checked','checked')
+
+        // Extract terms from the query search box and highlight any of their occurrences in the descriptions
+        terms = document.getElementById("query_input").value.split(" ");
+
+        for(var i=0;i<terms.length;i++)
+        {
+        	term = terms[i];
+        	re = RegExp(term,"i"); // i for case-insensative
+
+        	descriptions = document.getElementsByClassName("description");
+        	for (var j=0;j<descriptions.length;j++)
+        	{
+        		descriptions[j].innerHTML = descriptions[j].innerHTML.replace(re,"<b>"+term+"</b>");
+        	}
+        }
+
+    });
+
+    function addAdvancedSearchOptionsFilters()
+    {
+
+        // Remove existing previously existing advanced options filters (will be replaced by current ones)
+        existing_duration_filter = "duration:[" + getFilterValue("duration","min") + " TO " + getFilterValue("duration","max") + "]"
+        removeFilter(existing_duration_filter)
+        removeFilter("is_geotagged:1")
+
+        // if advanced options is activated add all updated filters
+        if ($("#advanced_search_hidden").val() == 1)
+        {
+
+            // Create and add new filter with all the advanced options
+            filter = ""
+
+            // Duration filter
+            duration_min = parseFloat($("#filter_duration_min").val())
+            duration_max = parseFloat($("#filter_duration_max").val())
+
+            if ((duration_min >= 0.0) || (duration_max >= 0.0))
+            {
+                duration_filter = ""
+
+                if ((duration_min >= 0.0) && (duration_max >= 0.0)) // Both min and max have been set
+                {
+                    if (duration_max < duration_min)
+                    {
+                        // interchange values if duration_min > duration_max
+                        duration_aux = duration_min
+                        duration_min = duration_max
+                        duration_max = duration_aux
+                    }
+
+                    duration_filter = "duration:[" + duration_min + " TO " + duration_max + "]"
+
+                }
+                else if (duration_min >= 0.0) // Only minimum has been set
+                {
+                    duration_filter = "duration:[" + duration_min + " TO *]"
+                }
+                else if (duration_max >= 0.0) // Only maximum has been set
+                {
+                    duration_filter = "duration:[* TO " + duration_max + "]"
+                }
+
+                filter = filter + duration_filter
+            }
+
+            // Is geotagged filter
+            if ($("#filter_is_geotagged").attr('checked')){
+                if (filter != "")
+                    filter = filter + " "
+                filter = filter + "is_geotagged:1"
+            }
+
+               // Update general filter with the advanced options filter
+            value = $("#filter_query").val();
+            if (value != "")
+                $("#filter_query").val(value + " " + filter);
+            else
+                $("#filter_query").val(filter);
+
+        }
+
+        return true
+    }
+
+    // Return the value of a filter given its name
+    // If filter has a range, optional "range" parameter must be set to "min or "max"
+    function getFilterValue(name, range)
+    {
+        if (!range) { range = "min"};
+
+        var value = $("#filter_query").val();
+        position_name = value.search(name)
+        position_value = value.search(name) + (name + ":").length
+        if (value.search((name + ":")) != -1)
+        {
+            if (value[position_value] == "[") // Is range (with spaces)
+            {
+                aux_value = value.substring(position_value + 1)
+                position_end = position_value + aux_value.search("]") + 2
+
+                range_string = value.substring(position_value + 1, position_end -1) // Without [ ]
+                parts = range_string.split(" ")
+                if (range == "min")
+                    return parts[0]
+                else if (range == "max")
+                    return parts[2]
+            }
+            else if (value[position_value] == "\"") // Is string (with spaces)
+            {
+                aux_value = value.substring(position_value + 1)
+                position_end = position_value + aux_value.search("\"") + 2
+                return value.substring(position_value, position_end)
+
+            }
+            else // Is number or normal text (without spaces)
+            {
+                aux_value = value.substring(position_value + 1)
+                if (aux_value.search(" ") != -1)
+                    position_end = position_value + aux_value.search(" ") + 1
+                else
+                    position_end = value.length
+
+                return value.substring(position_value, position_end)
+            }
+        }
+        else
+        {
+            return ""
+        }
+    }
+
+    // Remove a filter given the full tag ex: type:aiff, pack:"pack name"
+    function removeFilter(tag)
+    {
+        var value = $("#filter_query").val();
+        var cleaned = $.trim(value.replace(tag + " ", "").replace(tag, ""));
+        $("#filter_query").val(cleaned);
+    }
+
+</script>
+
+
+    
+    <div id="sidebar" style="float:right">
+        
+            <h3>licenses</h3>
+            
+ <ul>
+     <li class="facet_item"><a href=".?g=1&q=cry&f= license:&quot;Attribution&quot;">Attribution</a> (516)</li><li class="facet_item"><a href=".?g=1&q=cry&f= license:&quot;Attribution+Noncommercial&quot;">Attribution Noncommercial</a> (211)</li><li class="facet_item"><a href=".?g=1&q=cry&f= license:&quot;Creative+Commons+0&quot;">Creative Commons 0</a> (427)</li><li class="facet_item"><a href=".?g=1&q=cry&f= license:&quot;Sampling%2B&quot;">Sampling+</a> (30)</li>
+</ul>
+
+
+
+        
+
+        
+            <h3>tags</h3>
+            
+
+<p class="search-tagcloud">
+    <span class="facet_item" style="font-size:0.7em"><a href=".?g=1&q=cry&f= tag:&quot;ambient&quot;">ambient</a></span> <span class="facet_item" style="font-size:1.20869565217em"><a href=".?g=1&q=cry&f= tag:&quot;animal&quot;">animal</a></span> <span class="facet_item" style="font-size:1.88695652174em"><a href=".?g=1&q=cry&f= tag:&quot;baby&quot;">baby</a></span> <span class="facet_item" style="font-size:0.982608695652em"><a href=".?g=1&q=cry&f= tag:&quot;bird&quot;">bird</a></span> <span class="facet_item" style="font-size:1.2652173913em"><a href=".?g=1&q=cry&f= tag:&quot;birds&quot;">birds</a></span> <span class="facet_item" style="font-size:1.66086956522em"><a href=".?g=1&q=cry&f= tag:&quot;child&quot;">child</a></span> <span class="facet_item" style="font-size:1.15217391304em"><a href=".?g=1&q=cry&f= tag:&quot;creepy&quot;">creepy</a></span> <span class="facet_item" style="font-size:2.0em"><a href=".?g=1&q=cry&f= tag:&quot;cry&quot;">cry</a></span> <span class="facet_item" style="font-size:1.94347826087em"><a href=".?g=1&q=cry&f= tag:&quot;crying&quot;">crying</a></span> <span class="facet_item" style="font-size:1.03913043478em"><a href=".?g=1&q=cry&f= tag:&quot;distorted&quot;">distorted</a></span> <span class="facet_item" style="font-size:1.2652173913em"><a href=".?g=1&q=cry&f= tag:&quot;female&quot;">female</a></span> <span class="facet_item" style="font-size:1.71739130435em"><a href=".?g=1&q=cry&f= tag:&quot;field-recording&quot;">field-recording</a></span> <span class="facet_item" style="font-size:0.75652173913em"><a href=".?g=1&q=cry&f= tag:&quot;ghost&quot;">ghost</a></span> <span class="facet_item" style="font-size:1.60434782609em"><a href=".?g=1&q=cry&f= tag:&quot;horror&quot;">horror</a></span> <span class="facet_item" style="font-size:1.54782608696em"><a href=".?g=1&q=cry&f= tag:&quot;human&quot;">human</a></span> <span class="facet_item" style="font-size:1.20869565217em"><a href=".?g=1&q=cry&f= tag:&quot;infant&quot;">infant</a></span> <span class="facet_item" style="font-size:1.09565217391em"><a href=".?g=1&q=cry&f= tag:&quot;male&quot;">male</a></span> <span class="facet_item" style="font-size:0.926086956522em"><a href=".?g=1&q=cry&f= tag:&quot;monster&quot;">monster</a></span> <span class="facet_item" style="font-size:1.32173913043em"><a href=".?g=1&q=cry&f= tag:&quot;newborn&quot;">newborn</a></span> <span class="facet_item" style="font-size:1.37826086957em"><a href=".?g=1&q=cry&f= tag:&quot;pain&quot;">pain</a></span> <span class="facet_item" style="font-size:1.49130434783em"><a href=".?g=1&q=cry&f= tag:&quot;sad&quot;">sad</a></span> <span class="facet_item" style="font-size:1.4347826087em"><a href=".?g=1&q=cry&f= tag:&quot;scary&quot;">scary</a></span> <span class="facet_item" style="font-size:1.83043478261em"><a href=".?g=1&q=cry&f= tag:&quot;scream&quot;">scream</a></span> <span class="facet_item" style="font-size:1.2652173913em"><a href=".?g=1&q=cry&f= tag:&quot;screaming&quot;">screaming</a></span> <span class="facet_item" style="font-size:0.813043478261em"><a href=".?g=1&q=cry&f= tag:&quot;shout&quot;">shout</a></span> <span class="facet_item" style="font-size:0.7em"><a href=".?g=1&q=cry&f= tag:&quot;synth&quot;">synth</a></span> <span class="facet_item" style="font-size:0.869565217391em"><a href=".?g=1&q=cry&f= tag:&quot;vocal&quot;">vocal</a></span> <span class="facet_item" style="font-size:1.77391304348em"><a href=".?g=1&q=cry&f= tag:&quot;voice&quot;">voice</a></span> <span class="facet_item" style="font-size:0.813043478261em"><a href=".?g=1&q=cry&f= tag:&quot;whine&quot;">whine</a></span> <span class="facet_item" style="font-size:1.15217391304em"><a href=".?g=1&q=cry&f= tag:&quot;yell&quot;">yell</a></span> 
+</p>
+
+
+        
+
+        
+            <h3>type</h3>
+            
+ <ul>
+     <li class="facet_item"><a href=".?g=1&q=cry&f= type:&quot;aiff&quot;">aiff</a> (68)</li><li class="facet_item"><a href=".?g=1&q=cry&f= type:&quot;flac&quot;">flac</a> (54)</li><li class="facet_item"><a href=".?g=1&q=cry&f= type:&quot;m4a&quot;">m4a</a> (5)</li><li class="facet_item"><a href=".?g=1&q=cry&f= type:&quot;mp3&quot;">mp3</a> (168)</li><li class="facet_item"><a href=".?g=1&q=cry&f= type:&quot;ogg&quot;">ogg</a> (11)</li><li class="facet_item"><a href=".?g=1&q=cry&f= type:&quot;wav&quot;">wav</a> (878)</li>
+</ul>
+
+
+
+        
+
+        
+            <h3>samplerate</h3>
+            
+ <ul>
+     <li class="facet_item"><a href=".?g=1&q=cry&f= samplerate:&quot;22050&quot;">22050</a> (31)</li><li class="facet_item"><a href=".?g=1&q=cry&f= samplerate:&quot;44100&quot;">44100</a> (827)</li><li class="facet_item"><a href=".?g=1&q=cry&f= samplerate:&quot;48000&quot;">48000</a> (240)</li><li class="facet_item"><a href=".?g=1&q=cry&f= samplerate:&quot;8000&quot;">8000</a> (9)</li><li class="facet_item"><a href=".?g=1&q=cry&f= samplerate:&quot;96000&quot;">96000</a> (58)</li>
+</ul>
+
+
+
+        
+
+        
+            <h3>bitdepth</h3>
+            
+ <ul>
+     <li class="facet_item"><a href=".?g=1&q=cry&f= bitdepth:&quot;16&quot;">16</a> (688)</li><li class="facet_item"><a href=".?g=1&q=cry&f= bitdepth:&quot;24&quot;">24</a> (242)</li><li class="facet_item"><a href=".?g=1&q=cry&f= bitdepth:&quot;32&quot;">32</a> (59)</li><li class="facet_item"><a href=".?g=1&q=cry&f= bitdepth:&quot;8&quot;">8</a> (3)</li>
+</ul>
+
+
+
+        
+
+        
+            <h3>bitrate</h3>
+            
+ <ul>
+     <li class="facet_item"><a href=".?g=1&q=cry&f= bitrate:&quot;1378&quot;">1378</a> (400)</li><li class="facet_item"><a href=".?g=1&q=cry&f= bitrate:&quot;1379&quot;">1379</a> (65)</li><li class="facet_item"><a href=".?g=1&q=cry&f= bitrate:&quot;1411&quot;">1411</a> (70)</li><li class="facet_item"><a href=".?g=1&q=cry&f= bitrate:&quot;2250&quot;">2250</a> (66)</li><li class="facet_item"><a href=".?g=1&q=cry&f= bitrate:&quot;689&quot;">689</a> (87)</li>
+</ul>
+
+
+
+        
+
+
+        
+            <h3>channels</h3>
+            
+ <ul>
+     <li class="facet_item"><a href=".?g=1&q=cry&f= channels:&quot;1&quot;">1</a> (292)</li><li class="facet_item"><a href=".?g=1&q=cry&f= channels:&quot;2&quot;">2</a> (889)</li><li class="facet_item"><a href=".?g=1&q=cry&f= channels:&quot;6&quot;">6</a> (2)</li>
+</ul>
+
+
+
+        
+
+        
+            <h3>packs</h3>
+            
+ <ul>
+     <li class="facet_item"><a href=".?g=1&q=cry&f= grouping_pack:&quot;10628_Vocal&quot;">Vocal</a> (32)</li><li class="facet_item"><a href=".?g=1&q=cry&f= grouping_pack:&quot;11025_Scary+Sounds&quot;">Scary Sounds</a> (24)</li><li class="facet_item"><a href=".?g=1&q=cry&f= grouping_pack:&quot;13383_xKicks+1+Teaser&quot;">xKicks 1 Teaser</a> (24)</li><li class="facet_item"><a href=".?g=1&q=cry&f= grouping_pack:&quot;15986_Mexico+City&quot;">Mexico City</a> (16)</li><li class="facet_item"><a href=".?g=1&q=cry&f= grouping_pack:&quot;16206_Large+Distorted+Growl+Bass+Attempt+2&quot;">Large Distorted Growl Bass Attempt 2</a> (40)</li><li class="facet_item"><a href=".?g=1&q=cry&f= grouping_pack:&quot;1792_human&quot;">human</a> (16)</li><li class="facet_item"><a href=".?g=1&q=cry&f= grouping_pack:&quot;2114_Solo+guitar+cuts&quot;">Solo guitar cuts</a> (12)</li><li class="facet_item"><a href=".?g=1&q=cry&f= grouping_pack:&quot;21831_sami+crying&quot;">sami crying</a> (17)</li><li class="facet_item"><a href=".?g=1&q=cry&f= grouping_pack:&quot;531_screams+and+pain&quot;">screams and pain</a> (11)</li><li class="facet_item"><a href=".?g=1&q=cry&f= grouping_pack:&quot;7097_baby&quot;">baby</a> (16)</li>
+</ul>
+
+
+
+        
+
+        
+            <h3>users</h3>
+            
+
+<p class="search-tagcloud">
+    <span class="facet_item" style="font-size:0.7em"><a href=".?g=1&q=cry&f= username:&quot;acclivity&quot;">acclivity</a></span> <span class="facet_item" style="font-size:1.61764705882em"><a href=".?g=1&q=cry&f= username:&quot;ameangelofsin&quot;">ameangelofsin</a></span> <span class="facet_item" style="font-size:1.15882352941em"><a href=".?g=1&q=cry&f= username:&quot;arnaud+coutancier&quot;">arnaud coutancier</a></span> <span class="facet_item" style="font-size:0.7em"><a href=".?g=1&q=cry&f= username:&quot;be-steele&quot;">be-steele</a></span> <span class="facet_item" style="font-size:0.929411764706em"><a href=".?g=1&q=cry&f= username:&quot;bidone&quot;">bidone</a></span> <span class="facet_item" style="font-size:0.776470588235em"><a href=".?g=1&q=cry&f= username:&quot;breviceps&quot;">breviceps</a></span> <span class="facet_item" style="font-size:0.852941176471em"><a href=".?g=1&q=cry&f= username:&quot;coral_island_studios&quot;">coral_island_studios</a></span> <span class="facet_item" style="font-size:1.38823529412em"><a href=".?g=1&q=cry&f= username:&quot;craigsmith&quot;">craigsmith</a></span> <span class="facet_item" style="font-size:1.92352941176em"><a href=".?g=1&q=cry&f= username:&quot;dobroide&quot;">dobroide</a></span> <span class="facet_item" style="font-size:1.54117647059em"><a href=".?g=1&q=cry&f= username:&quot;electroshocknetwork&quot;">electroshocknetwork</a></span> <span class="facet_item" style="font-size:1.61764705882em"><a href=".?g=1&q=cry&f= username:&quot;erdie&quot;">erdie</a></span> <span class="facet_item" style="font-size:1.46470588235em"><a href=".?g=1&q=cry&f= username:&quot;erh&quot;">erh</a></span> <span class="facet_item" style="font-size:1.31176470588em"><a href=".?g=1&q=cry&f= username:&quot;felix.blume&quot;">felix.blume</a></span> <span class="facet_item" style="font-size:0.929411764706em"><a href=".?g=1&q=cry&f= username:&quot;gb01&quot;">gb01</a></span> <span class="facet_item" style="font-size:1.69411764706em"><a href=".?g=1&q=cry&f= username:&quot;gumballworld&quot;">gumballworld</a></span> <span class="facet_item" style="font-size:1.77058823529em"><a href=".?g=1&q=cry&f= username:&quot;jorickhoofd&quot;">jorickhoofd</a></span> <span class="facet_item" style="font-size:1.84705882353em"><a href=".?g=1&q=cry&f= username:&quot;klankbeeld&quot;">klankbeeld</a></span> <span class="facet_item" style="font-size:0.929411764706em"><a href=".?g=1&q=cry&f= username:&quot;kyles&quot;">kyles</a></span> <span class="facet_item" style="font-size:1.38823529412em"><a href=".?g=1&q=cry&f= username:&quot;milton.&quot;">milton.</a></span> <span class="facet_item" style="font-size:1.54117647059em"><a href=".?g=1&q=cry&f= username:&quot;minigunfiend&quot;">minigunfiend</a></span> <span class="facet_item" style="font-size:1.31176470588em"><a href=".?g=1&q=cry&f= username:&quot;noisecollector&quot;">noisecollector</a></span> <span class="facet_item" style="font-size:1.00588235294em"><a href=".?g=1&q=cry&f= username:&quot;pfly&quot;">pfly</a></span> <span class="facet_item" style="font-size:1.23529411765em"><a href=".?g=1&q=cry&f= username:&quot;reinsamba&quot;">reinsamba</a></span> <span class="facet_item" style="font-size:0.929411764706em"><a href=".?g=1&q=cry&f= username:&quot;repdac3&quot;">repdac3</a></span> <span class="facet_item" style="font-size:1.00588235294em"><a href=".?g=1&q=cry&f= username:&quot;robinhood76&quot;">robinhood76</a></span> <span class="facet_item" style="font-size:2.0em"><a href=".?g=1&q=cry&f= username:&quot;similine&quot;">similine</a></span> <span class="facet_item" style="font-size:0.776470588235em"><a href=".?g=1&q=cry&f= username:&quot;spidervis&quot;">spidervis</a></span> <span class="facet_item" style="font-size:1.08235294118em"><a href=".?g=1&q=cry&f= username:&quot;thanvannispen&quot;">thanvannispen</a></span> <span class="facet_item" style="font-size:0.929411764706em"><a href=".?g=1&q=cry&f= username:&quot;timgormly&quot;">timgormly</a></span> <span class="facet_item" style="font-size:0.929411764706em"><a href=".?g=1&q=cry&f= username:&quot;ylearkisto&quot;">ylearkisto</a></span> 
+</p>
+
+
+        
+
+    </div>
+
+        
+            <div class="search_paginator">
+                <ul class="pagination"><li class="disabled-previous-next">previous</li><li class="next-page"><a href="/search/?q=cry&amp;page=2#sound" title="Next Page">next</a></li><li class="current-page">1</li><li class="other-page"><a href="/search/?q=cry&amp;page=2#sound" title="Page 2">2</a></li><li class="other-page"><a href="/search/?q=cry&amp;page=3#sound" title="Page 3">3</a></li><li class="other-page"><a href="/search/?q=cry&amp;page=4#sound" title="Page 4">4</a></li><li class="other-page"><a href="/search/?q=cry&amp;page=5#sound" title="Page 5">5</a></li><li class="other-page"><a href="/search/?q=cry&amp;page=6#sound" title="Page 6">6</a></li><li class="other-page"><a href="/search/?q=cry&amp;page=7#sound" title="Page 7">7</a></li><li class="dots">...</li><li class="last-page"><a href="/search/?q=cry&amp;page=48#sound" title="Last Page">48</a></li><p class="number_of_results">
+            
+                &nbsp|&nbsp 1184 sounds
+            
+        </p></ul>
+
+
+            </div>
+
+            
+                
+
+
+
+
+
+
+
+<div class="sample_player_small" id="211528">
+
+    
+
+    <div class="sample_player ">
+        <div class="small_player">
+            <div class="player small">
+    <div class="metadata">
+        <a class="mp3_file" href="/data/previews/211/211528_2451161-lq.mp3" title="mp3 file">Crying newborn baby child 2.WAV - mp3 version</a>
+<a class="ogg_file" href="/data/previews/211/211528_2451161-lq.ogg" title="ogg file">Crying newborn baby child 2.WAV - ogg version</a>
+<a class="waveform" href="/data/displays/211/211528_2451161_wave_M.png"
+   title="waveform file">Crying newborn baby child 2.WAV - waveform</a>
+<a class="spectrum" href="/data/displays/211/211528_2451161_spec_M.jpg"
+   title="spectrogram file">Crying newborn baby child 2.WAV - spectrogram</a>
+<span class="duration" title="duration in seconds">23093.8</span>
+
+    </div>
+</div>
+
+        </div><!-- .small_player -->
+
+        <div class="sound_title">
+            <div class="sound_filename">
+               <a class="title" href="/people/the_yura/sounds/211528/" title="Crying newborn baby child 2.WAV">Crying newborn baby chil...</a>
+            </div><!-- .sound_filename -->
+            <div class="sound_stars">
+               <ul class="star-rating">
+    <li class="current-rating" style="width:93%;">Currently /5 Stars.</li>
+    
+</ul>
+            </div><!-- .sound_stars -->
+
+            <div class="sound_description">
+                <p class="description">Crying newborn baby child</p>
+            </div><!-- .sound_description -->
+
+            <div class="sound_tags">
+
+                <ul class="tags">
+                    
+                        <li><a href="/browse/tags/cry/">cry</a></li>
+                    
+                        <li><a href="/browse/tags/Cry/">Cry</a></li>
+                    
+                        <li><a href="/browse/tags/newborn/">newborn</a></li>
+                    
+                        <li><a href="/browse/tags/crying/">crying</a></li>
+                    
+                        <li><a href="/browse/tags/child/">child</a></li>
+                    
+                        <li><a href="/browse/tags/baby/">baby</a></li>
+                    
+                        <li><a href="/browse/tags/kid/">kid</a></li>
+                    
+                </ul>
+                <br style="clear: both;"/>
+
+            </div><!-- .sound_tags -->
+
+            <div id="bookmark_form_211528" class="bookmark_form"></div> <!-- to be filled dynamically with ajax -->
+
+            
+
+          </div><!-- .sound_title -->
+    </div><!-- .sample_player -->
+
+    <div class="sample_information ">
+        <a class="user" href="/people/the_yura/">the_yura</a><br />
+        <span class="date">December 22nd, 2013</span><br />
+        <span class="download_count"><a href="/people/the_yura/sounds/211528/downloaders/">18138 downloads</a></span><br />
+        <a class="comments" href="/people/the_yura/sounds/211528/#comments">44 comments</a>
+
+        <div class="sound_attributes">
+
+            
+
+            
+            <a class="similar" rel="nofollow" href="/people/the_yura/sounds/211528/similar/">
+                <img src="/media/images/fugue-icons/icons/headphone--plus.png" width="16" height="16" alt="Similar" title="Similar Sounds" />
+            </a>
+            
+            
+            <a class="pack" href="/people/the_yura/packs/13437/">
+                <img src="/media/images/fugue-icons/icons/folder-open-document-music.png" width="16" height="16" alt="Pack" title="This sound belongs to the pack: Crying newborn baby child " />
+            </a>
+            
+            
+            
+            <!-- license icons -->
+            
+            
+                <img class="cc_license" src="/media/images/licenses/nolaw.png" width="16" height="16" alt="Public Domain license" title="This sound is public domain." />
+            
+            
+            
+            <!-- /license icons -->
+
+        </div><!-- .sound_attributes -->
+    </div><!-- .sample_information -->
+</div><!-- .sample_player_small -->
+
+
+
+
+
+
+                
+                        <div class="sample_more_search_results"><img src="/media/images/plus.png" alt="" /> <a href='/search/?q=cry&f=grouping_pack:"13437_Crying newborn baby child " &s="score desc"&g=1&advanced=&a_tag=&a_filename=&a_description=&a_packname=&a_soundid=&a_username='>4 more results</a> in the same pack "Crying newborn baby child "</div>
+                
+            
+                
+
+
+
+
+
+
+
+<div class="sample_player_small" id="418262">
+
+    
+
+    <div class="sample_player ">
+        <div class="small_player">
+            <div class="player small">
+    <div class="metadata">
+        <a class="mp3_file" href="/data/previews/418/418262_5121236-lq.mp3" title="mp3 file">Crow Call, Single, A.wav - mp3 version</a>
+<a class="ogg_file" href="/data/previews/418/418262_5121236-lq.ogg" title="ogg file">Crow Call, Single, A.wav - ogg version</a>
+<a class="waveform" href="/data/displays/418/418262_5121236_wave_M.png"
+   title="waveform file">Crow Call, Single, A.wav - waveform</a>
+<a class="spectrum" href="/data/displays/418/418262_5121236_spec_M.jpg"
+   title="spectrogram file">Crow Call, Single, A.wav - spectrogram</a>
+<span class="duration" title="duration in seconds">2341.54</span>
+
+    </div>
+</div>
+
+        </div><!-- .small_player -->
+
+        <div class="sound_title">
+            <div class="sound_filename">
+               <a class="title" href="/people/InspectorJ/sounds/418262/" title="Crow Call, Single, A.wav">Crow Call, Single, A.wav</a>
+            </div><!-- .sound_filename -->
+            <div class="sound_stars">
+               <ul class="star-rating">
+    <li class="current-rating" style="width:89%;">Currently /5 Stars.</li>
+    
+</ul>
+            </div><!-- .sound_stars -->
+
+            <div class="sound_description">
+                <p class="description">Audio of a crow in Florida. Highly edited and EQ'd to remove the background ambience. This sound is NOT in ...</p>
+            </div><!-- .sound_description -->
+
+            <div class="sound_tags">
+
+                <ul class="tags">
+                    
+                        <li><a href="/browse/tags/crow/">crow</a></li>
+                    
+                        <li><a href="/browse/tags/Crow/">Crow</a></li>
+                    
+                        <li><a href="/browse/tags/Bird/">Bird</a></li>
+                    
+                        <li><a href="/browse/tags/Call/">Call</a></li>
+                    
+                        <li><a href="/browse/tags/call/">call</a></li>
+                    
+                        <li><a href="/browse/tags/cry/">cry</a></li>
+                    
+                        <li><a href="/browse/tags/Single/">Single</a></li>
+                    
+                        <li><a href="/browse/tags/bird/">bird</a></li>
+                    
+                        <li><a href="/browse/tags/single/">single</a></li>
+                    
+                        <li><a href="/browse/tags/Cry/">Cry</a></li>
+                    
+                </ul>
+                <br style="clear: both;"/>
+
+            </div><!-- .sound_tags -->
+
+            <div id="bookmark_form_418262" class="bookmark_form"></div> <!-- to be filled dynamically with ajax -->
+
+            
+
+          </div><!-- .sound_title -->
+    </div><!-- .sample_player -->
+
+    <div class="sample_information ">
+        <a class="user" href="/people/InspectorJ/">InspectorJ</a><br />
+        <span class="date">February 15th, 2018</span><br />
+        <span class="download_count"><a href="/people/InspectorJ/sounds/418262/downloaders/">7261 downloads</a></span><br />
+        <a class="comments" href="/people/InspectorJ/sounds/418262/#comments">8 comments</a>
+
+        <div class="sound_attributes">
+
+            
+
+            
+            <a class="similar" rel="nofollow" href="/people/InspectorJ/sounds/418262/similar/">
+                <img src="/media/images/fugue-icons/icons/headphone--plus.png" width="16" height="16" alt="Similar" title="Similar Sounds" />
+            </a>
+            
+            
+            
+             <a class="remixes" href="/people/InspectorJ/sounds/418262/remixes/">
+                <img src="/media/images/remixes.png" width="16" height="16" alt="Remixes" title="This sound has remixes" />
+            </a>
+            
+            
+            <a class="geotag" href="/people/InspectorJ/sounds/418262/geotag/">
+                <img src="/media/images/geotag.png" width="16" height="16" alt="Geotagged" title="This sound has a geotag" />
+            </a>
+            
+            <!-- license icons -->
+            
+            
+            
+                <img class="cc_license" src="/media/images/licenses/by.png" width="16" height="16" alt="Creative Commons Attribution license" title="This sound is licensed under the Creative Commons Attribution license." />
+            
+            
+            <!-- /license icons -->
+
+        </div><!-- .sound_attributes -->
+    </div><!-- .sample_information -->
+</div><!-- .sample_player_small -->
+
+
+
+
+
+
+                
+            
+                
+
+
+
+
+
+
+
+<div class="sample_player_small" id="216791">
+
+    
+
+    <div class="sample_player ">
+        <div class="small_player">
+            <div class="player small">
+    <div class="metadata">
+        <a class="mp3_file" href="/data/previews/216/216791_4049435-lq.mp3" title="mp3 file">Mulet - mp3 version</a>
+<a class="ogg_file" href="/data/previews/216/216791_4049435-lq.ogg" title="ogg file">Mulet - ogg version</a>
+<a class="waveform" href="/data/displays/216/216791_4049435_wave_M.png"
+   title="waveform file">Mulet - waveform</a>
+<a class="spectrum" href="/data/displays/216/216791_4049435_spec_M.jpg"
+   title="spectrogram file">Mulet - spectrogram</a>
+<span class="duration" title="duration in seconds">4109.95</span>
+
+    </div>
+</div>
+
+        </div><!-- .small_player -->
+
+        <div class="sound_title">
+            <div class="sound_filename">
+               <a class="title" href="/people/FreeSoundUser2895/sounds/216791/" title="Mulet">Mulet</a>
+            </div><!-- .sound_filename -->
+            <div class="sound_stars">
+               <ul class="star-rating">
+    <li class="current-rating" style="width:60%;">Currently /5 Stars.</li>
+    
+</ul>
+            </div><!-- .sound_stars -->
+
+            <div class="sound_description">
+                <p class="description">This is the first "Mulet" cry Cry by John Wetile</p>
+            </div><!-- .sound_description -->
+
+            <div class="sound_tags">
+
+                <ul class="tags">
+                    
+                        <li><a href="/browse/tags/mulet/">mulet</a></li>
+                    
+                        <li><a href="/browse/tags/cry/">cry</a></li>
+                    
+                        <li><a href="/browse/tags/crying/">crying</a></li>
+                    
+                        <li><a href="/browse/tags/first/">first</a></li>
+                    
+                </ul>
+                <br style="clear: both;"/>
+
+            </div><!-- .sound_tags -->
+
+            <div id="bookmark_form_216791" class="bookmark_form"></div> <!-- to be filled dynamically with ajax -->
+
+            
+
+          </div><!-- .sound_title -->
+    </div><!-- .sample_player -->
+
+    <div class="sample_information ">
+        <a class="user" href="/people/FreeSoundUser2895/">FreeSoundUser2895</a><br />
+        <span class="date">February 1st, 2014</span><br />
+        <span class="download_count"><a href="/people/FreeSoundUser2895/sounds/216791/downloaders/">1081 downloads</a></span><br />
+        <a class="comments" href="/people/FreeSoundUser2895/sounds/216791/#comments">7 comments</a>
+
+        <div class="sound_attributes">
+
+            
+
+            
+            <a class="similar" rel="nofollow" href="/people/FreeSoundUser2895/sounds/216791/similar/">
+                <img src="/media/images/fugue-icons/icons/headphone--plus.png" width="16" height="16" alt="Similar" title="Similar Sounds" />
+            </a>
+            
+            
+            <a class="pack" href="/people/FreeSoundUser2895/packs/13738/">
+                <img src="/media/images/fugue-icons/icons/folder-open-document-music.png" width="16" height="16" alt="Pack" title="This sound belongs to the pack: Cry" />
+            </a>
+            
+            
+            
+            <!-- license icons -->
+            
+            
+            
+            
+                <img class="cc_license" src="/media/images/licenses/bync.png" height="16" alt="Creative Commons Attribution Non-Commercial license" title="This sound is licensed under the Creative Commons Attribution Non-Commercial license." />
+            
+            <!-- /license icons -->
+
+        </div><!-- .sound_attributes -->
+    </div><!-- .sample_information -->
+</div><!-- .sample_player_small -->
+
+
+
+
+
+
+                
+            
+                
+
+
+
+
+
+
+
+<div class="sample_player_small" id="219433">
+
+    
+
+    <div class="sample_player ">
+        <div class="small_player">
+            <div class="player small">
+    <div class="metadata">
+        <a class="mp3_file" href="/data/previews/219/219433_3408423-lq.mp3" title="mp3 file">crying.mp3 - mp3 version</a>
+<a class="ogg_file" href="/data/previews/219/219433_3408423-lq.ogg" title="ogg file">crying.mp3 - ogg version</a>
+<a class="waveform" href="/data/displays/219/219433_3408423_wave_M.png"
+   title="waveform file">crying.mp3 - waveform</a>
+<a class="spectrum" href="/data/displays/219/219433_3408423_spec_M.jpg"
+   title="spectrogram file">crying.mp3 - spectrogram</a>
+<span class="duration" title="duration in seconds">71406.8</span>
+
+    </div>
+</div>
+
+        </div><!-- .small_player -->
+
+        <div class="sound_title">
+            <div class="sound_filename">
+               <a class="title" href="/people/Bash360/sounds/219433/" title="crying.mp3">crying.mp3</a>
+            </div><!-- .sound_filename -->
+            <div class="sound_stars">
+               <ul class="star-rating">
+    <li class="current-rating" style="width:71%;">Currently /5 Stars.</li>
+    
+</ul>
+            </div><!-- .sound_stars -->
+
+            <div class="sound_description">
+                <p class="description">very annoying cry and some people cant even last 3 seconds listening</p>
+            </div><!-- .sound_description -->
+
+            <div class="sound_tags">
+
+                <ul class="tags">
+                    
+                        <li><a href="/browse/tags/sound/">sound</a></li>
+                    
+                        <li><a href="/browse/tags/hurt/">hurt</a></li>
+                    
+                        <li><a href="/browse/tags/annoying/">annoying</a></li>
+                    
+                        <li><a href="/browse/tags/whisper/">whisper</a></li>
+                    
+                        <li><a href="/browse/tags/scared/">scared</a></li>
+                    
+                        <li><a href="/browse/tags/cry/">cry</a></li>
+                    
+                        <li><a href="/browse/tags/upset/">upset</a></li>
+                    
+                        <li><a href="/browse/tags/tears/">tears</a></li>
+                    
+                        <li><a href="/browse/tags/sad/">sad</a></li>
+                    
+                        <li><a href="/browse/tags/sadness/">sadness</a></li>
+                    
+                        <li><a href="/browse/tags/wake/">wake</a></li>
+                    
+                        <li><a href="/browse/tags/crying/">crying</a></li>
+                    
+                        <li><a href="/browse/tags/acting/">acting</a></li>
+                    
+                        <li><a href="/browse/tags/emotional/">emotional</a></li>
+                    
+                        <li><a href="/browse/tags/weep/">weep</a></li>
+                    
+                        <li><a href="/browse/tags/worried/">worried</a></li>
+                    
+                </ul>
+                <br style="clear: both;"/>
+
+            </div><!-- .sound_tags -->
+
+            <div id="bookmark_form_219433" class="bookmark_form"></div> <!-- to be filled dynamically with ajax -->
+
+            
+
+          </div><!-- .sound_title -->
+    </div><!-- .sample_player -->
+
+    <div class="sample_information ">
+        <a class="user" href="/people/Bash360/">Bash360</a><br />
+        <span class="date">February 18th, 2014</span><br />
+        <span class="download_count"><a href="/people/Bash360/sounds/219433/downloaders/">7969 downloads</a></span><br />
+        <a class="comments" href="/people/Bash360/sounds/219433/#comments">10 comments</a>
+
+        <div class="sound_attributes">
+
+            
+
+            
+            <a class="similar" rel="nofollow" href="/people/Bash360/sounds/219433/similar/">
+                <img src="/media/images/fugue-icons/icons/headphone--plus.png" width="16" height="16" alt="Similar" title="Similar Sounds" />
+            </a>
+            
+            
+            <a class="pack" href="/people/Bash360/packs/13892/">
+                <img src="/media/images/fugue-icons/icons/folder-open-document-music.png" width="16" height="16" alt="Pack" title="This sound belongs to the pack: cry baby cry" />
+            </a>
+            
+            
+            
+            <!-- license icons -->
+            
+            
+                <img class="cc_license" src="/media/images/licenses/nolaw.png" width="16" height="16" alt="Public Domain license" title="This sound is public domain." />
+            
+            
+            
+            <!-- /license icons -->
+
+        </div><!-- .sound_attributes -->
+    </div><!-- .sample_information -->
+</div><!-- .sample_player_small -->
+
+
+
+
+
+
+                
+            
+                
+
+
+
+
+
+
+
+<div class="sample_player_small" id="386923">
+
+    
+
+    <div class="sample_player ">
+        <div class="small_player">
+            <div class="player small">
+    <div class="metadata">
+        <a class="mp3_file" href="/data/previews/386/386923_7227448-lq.mp3" title="mp3 file">baby newborn cry2.wav - mp3 version</a>
+<a class="ogg_file" href="/data/previews/386/386923_7227448-lq.ogg" title="ogg file">baby newborn cry2.wav - ogg version</a>
+<a class="waveform" href="/data/displays/386/386923_7227448_wave_M.png"
+   title="waveform file">baby newborn cry2.wav - waveform</a>
+<a class="spectrum" href="/data/displays/386/386923_7227448_spec_M.jpg"
+   title="spectrogram file">baby newborn cry2.wav - spectrogram</a>
+<span class="duration" title="duration in seconds">2742.9</span>
+
+    </div>
+</div>
+
+        </div><!-- .small_player -->
+
+        <div class="sound_title">
+            <div class="sound_filename">
+               <a class="title" href="/people/gumballworld/sounds/386923/" title="baby newborn cry2.wav">baby newborn cry2.wav</a>
+            </div><!-- .sound_filename -->
+            <div class="sound_stars">
+               <ul class="star-rating">
+    <li class="current-rating" style="width:0%;">Currently /5 Stars.</li>
+    
+</ul>
+            </div><!-- .sound_stars -->
+
+            <div class="sound_description">
+                <p class="description">an eight weeks old baby cry short</p>
+            </div><!-- .sound_description -->
+
+            <div class="sound_tags">
+
+                <ul class="tags">
+                    
+                        <li><a href="/browse/tags/cry/">cry</a></li>
+                    
+                        <li><a href="/browse/tags/newborn/">newborn</a></li>
+                    
+                        <li><a href="/browse/tags/baby/">baby</a></li>
+                    
+                </ul>
+                <br style="clear: both;"/>
+
+            </div><!-- .sound_tags -->
+
+            <div id="bookmark_form_386923" class="bookmark_form"></div> <!-- to be filled dynamically with ajax -->
+
+            
+
+          </div><!-- .sound_title -->
+    </div><!-- .sample_player -->
+
+    <div class="sample_information ">
+        <a class="user" href="/people/gumballworld/">gumballworld</a><br />
+        <span class="date">April 2nd, 2017</span><br />
+        <span class="download_count"><a href="/people/gumballworld/sounds/386923/downloaders/">525 downloads</a></span><br />
+        <a class="comments" href="/people/gumballworld/sounds/386923/#comments">2 comments</a>
+
+        <div class="sound_attributes">
+
+            
+
+            
+            <a class="similar" rel="nofollow" href="/people/gumballworld/sounds/386923/similar/">
+                <img src="/media/images/fugue-icons/icons/headphone--plus.png" width="16" height="16" alt="Similar" title="Similar Sounds" />
+            </a>
+            
+            
+            <a class="pack" href="/people/gumballworld/packs/21751/">
+                <img src="/media/images/fugue-icons/icons/folder-open-document-music.png" width="16" height="16" alt="Pack" title="This sound belongs to the pack: newborn crying" />
+            </a>
+            
+            
+            
+            <!-- license icons -->
+            
+            
+            
+            
+                <img class="cc_license" src="/media/images/licenses/bync.png" height="16" alt="Creative Commons Attribution Non-Commercial license" title="This sound is licensed under the Creative Commons Attribution Non-Commercial license." />
+            
+            <!-- /license icons -->
+
+        </div><!-- .sound_attributes -->
+    </div><!-- .sample_information -->
+</div><!-- .sample_player_small -->
+
+
+
+
+
+
+                
+                        <div class="sample_more_search_results"><img src="/media/images/plus.png" alt="" /> <a href='/search/?q=cry&f=grouping_pack:"21751_newborn crying" &s="score desc"&g=1&advanced=&a_tag=&a_filename=&a_description=&a_packname=&a_soundid=&a_username='>3 more results</a> in the same pack "newborn crying"</div>
+                
+            
+                
+
+
+
+
+
+
+
+<div class="sample_player_small" id="80480">
+
+    
+
+    <div class="sample_player ">
+        <div class="small_player">
+            <div class="player small">
+    <div class="metadata">
+        <a class="mp3_file" href="/data/previews/80/80480_556875-lq.mp3" title="mp3 file">bebe_30_Iz.aif - mp3 version</a>
+<a class="ogg_file" href="/data/previews/80/80480_556875-lq.ogg" title="ogg file">bebe_30_Iz.aif - ogg version</a>
+<a class="waveform" href="/data/displays/80/80480_556875_wave_M.png"
+   title="waveform file">bebe_30_Iz.aif - waveform</a>
+<a class="spectrum" href="/data/displays/80/80480_556875_spec_M.jpg"
+   title="spectrogram file">bebe_30_Iz.aif - spectrogram</a>
+<span class="duration" title="duration in seconds">7459.79</span>
+
+    </div>
+</div>
+
+        </div><!-- .small_player -->
+
+        <div class="sound_title">
+            <div class="sound_filename">
+               <a class="title" href="/people/stevelalonde/sounds/80480/" title="bebe_30_Iz.aif">bebe_30_Iz.aif</a>
+            </div><!-- .sound_filename -->
+            <div class="sound_stars">
+               <ul class="star-rating">
+    <li class="current-rating" style="width:0%;">Currently /5 Stars.</li>
+    
+</ul>
+            </div><!-- .sound_stars -->
+
+            <div class="sound_description">
+                <p class="description">Fresh and crying newborn baby. She's about 12 hours old.</p>
+            </div><!-- .sound_description -->
+
+            <div class="sound_tags">
+
+                <ul class="tags">
+                    
+                        <li><a href="/browse/tags/baby/">baby</a></li>
+                    
+                        <li><a href="/browse/tags/cry/">cry</a></li>
+                    
+                        <li><a href="/browse/tags/crying/">crying</a></li>
+                    
+                        <li><a href="/browse/tags/newborn/">newborn</a></li>
+                    
+                </ul>
+                <br style="clear: both;"/>
+
+            </div><!-- .sound_tags -->
+
+            <div id="bookmark_form_80480" class="bookmark_form"></div> <!-- to be filled dynamically with ajax -->
+
+            
+
+          </div><!-- .sound_title -->
+    </div><!-- .sample_player -->
+
+    <div class="sample_information ">
+        <a class="user" href="/people/stevelalonde/">stevelalonde</a><br />
+        <span class="date">September 24th, 2009</span><br />
+        <span class="download_count"><a href="/people/stevelalonde/sounds/80480/downloaders/">443 downloads</a></span><br />
+        <a class="comments" href="/people/stevelalonde/sounds/80480/#comments">2 comments</a>
+
+        <div class="sound_attributes">
+
+            
+
+            
+            <a class="similar" rel="nofollow" href="/people/stevelalonde/sounds/80480/similar/">
+                <img src="/media/images/fugue-icons/icons/headphone--plus.png" width="16" height="16" alt="Similar" title="Similar Sounds" />
+            </a>
+            
+            
+            <a class="pack" href="/people/stevelalonde/packs/5245/">
+                <img src="/media/images/fugue-icons/icons/folder-open-document-music.png" width="16" height="16" alt="Pack" title="This sound belongs to the pack: Crying Babies" />
+            </a>
+            
+            
+            
+            <!-- license icons -->
+            
+            
+            
+                <img class="cc_license" src="/media/images/licenses/by.png" width="16" height="16" alt="Creative Commons Attribution license" title="This sound is licensed under the Creative Commons Attribution license." />
+            
+            
+            <!-- /license icons -->
+
+        </div><!-- .sound_attributes -->
+    </div><!-- .sample_information -->
+</div><!-- .sample_player_small -->
+
+
+
+
+
+
+                
+                        <div class="sample_more_search_results"><img src="/media/images/plus.png" alt="" /> <a href='/search/?q=cry&f=grouping_pack:"5245_Crying Babies" &s="score desc"&g=1&advanced=&a_tag=&a_filename=&a_description=&a_packname=&a_soundid=&a_username='>5 more results</a> in the same pack "Crying Babies"</div>
+                
+            
+                
+
+
+
+
+
+
+
+<div class="sample_player_small" id="120825">
+
+    
+
+    <div class="sample_player ">
+        <div class="small_player">
+            <div class="player small">
+    <div class="metadata">
+        <a class="mp3_file" href="/data/previews/120/120825_2175337-lq.mp3" title="mp3 file">cry.wav - mp3 version</a>
+<a class="ogg_file" href="/data/previews/120/120825_2175337-lq.ogg" title="ogg file">cry.wav - ogg version</a>
+<a class="waveform" href="/data/displays/120/120825_2175337_wave_M.png"
+   title="waveform file">cry.wav - waveform</a>
+<a class="spectrum" href="/data/displays/120/120825_2175337_spec_M.jpg"
+   title="spectrogram file">cry.wav - spectrogram</a>
+<span class="duration" title="duration in seconds">15650.0</span>
+
+    </div>
+</div>
+
+        </div><!-- .small_player -->
+
+        <div class="sound_title">
+            <div class="sound_filename">
+               <a class="title" href="/people/MreFF/sounds/120825/" title="cry.wav">cry.wav</a>
+            </div><!-- .sound_filename -->
+            <div class="sound_stars">
+               <ul class="star-rating">
+    <li class="current-rating" style="width:30%;">Currently /5 Stars.</li>
+    
+</ul>
+            </div><!-- .sound_stars -->
+
+            <div class="sound_description">
+                <p class="description">Cry effects</p>
+            </div><!-- .sound_description -->
+
+            <div class="sound_tags">
+
+                <ul class="tags">
+                    
+                        <li><a href="/browse/tags/cry/">cry</a></li>
+                    
+                        <li><a href="/browse/tags/effects/">effects</a></li>
+                    
+                </ul>
+                <br style="clear: both;"/>
+
+            </div><!-- .sound_tags -->
+
+            <div id="bookmark_form_120825" class="bookmark_form"></div> <!-- to be filled dynamically with ajax -->
+
+            
+
+          </div><!-- .sound_title -->
+    </div><!-- .sample_player -->
+
+    <div class="sample_information ">
+        <a class="user" href="/people/MreFF/">MreFF</a><br />
+        <span class="date">May 19th, 2011</span><br />
+        <span class="download_count"><a href="/people/MreFF/sounds/120825/downloaders/">378 downloads</a></span><br />
+        <a class="comments" href="/people/MreFF/sounds/120825/#comments">3 comments</a>
+
+        <div class="sound_attributes">
+
+            
+
+            
+            <a class="similar" rel="nofollow" href="/people/MreFF/sounds/120825/similar/">
+                <img src="/media/images/fugue-icons/icons/headphone--plus.png" width="16" height="16" alt="Similar" title="Similar Sounds" />
+            </a>
+            
+            
+            <a class="pack" href="/people/MreFF/packs/7557/">
+                <img src="/media/images/fugue-icons/icons/folder-open-document-music.png" width="16" height="16" alt="Pack" title="This sound belongs to the pack: Human" />
+            </a>
+            
+            
+            
+            <!-- license icons -->
+            
+            
+                <img class="cc_license" src="/media/images/licenses/nolaw.png" width="16" height="16" alt="Public Domain license" title="This sound is public domain." />
+            
+            
+            
+            <!-- /license icons -->
+
+        </div><!-- .sound_attributes -->
+    </div><!-- .sample_information -->
+</div><!-- .sample_player_small -->
+
+
+
+
+
+
+                
+            
+                
+
+
+
+
+
+
+
+<div class="sample_player_small" id="113364">
+
+    
+
+    <div class="sample_player ">
+        <div class="small_player">
+            <div class="player small">
+    <div class="metadata">
+        <a class="mp3_file" href="/data/previews/113/113364_995865-lq.mp3" title="mp3 file">cry.wav - mp3 version</a>
+<a class="ogg_file" href="/data/previews/113/113364_995865-lq.ogg" title="ogg file">cry.wav - ogg version</a>
+<a class="waveform" href="/data/displays/113/113364_995865_wave_M.png"
+   title="waveform file">cry.wav - waveform</a>
+<a class="spectrum" href="/data/displays/113/113364_995865_spec_M.jpg"
+   title="spectrogram file">cry.wav - spectrogram</a>
+<span class="duration" title="duration in seconds">9671.11</span>
+
+    </div>
+</div>
+
+        </div><!-- .small_player -->
+
+        <div class="sound_title">
+            <div class="sound_filename">
+               <a class="title" href="/people/silversatyr/sounds/113364/" title="cry.wav">cry.wav</a>
+            </div><!-- .sound_filename -->
+            <div class="sound_stars">
+               <ul class="star-rating">
+    <li class="current-rating" style="width:80%;">Currently /5 Stars.</li>
+    
+</ul>
+            </div><!-- .sound_stars -->
+
+            <div class="sound_description">
+                <p class="description">A woman crying.</p>
+            </div><!-- .sound_description -->
+
+            <div class="sound_tags">
+
+                <ul class="tags">
+                    
+                        <li><a href="/browse/tags/cry/">cry</a></li>
+                    
+                        <li><a href="/browse/tags/crying/">crying</a></li>
+                    
+                        <li><a href="/browse/tags/human/">human</a></li>
+                    
+                        <li><a href="/browse/tags/sob/">sob</a></li>
+                    
+                        <li><a href="/browse/tags/woman/">woman</a></li>
+                    
+                </ul>
+                <br style="clear: both;"/>
+
+            </div><!-- .sound_tags -->
+
+            <div id="bookmark_form_113364" class="bookmark_form"></div> <!-- to be filled dynamically with ajax -->
+
+            
+
+          </div><!-- .sound_title -->
+    </div><!-- .sample_player -->
+
+    <div class="sample_information ">
+        <a class="user" href="/people/silversatyr/">silversatyr</a><br />
+        <span class="date">February 1st, 2011</span><br />
+        <span class="download_count"><a href="/people/silversatyr/sounds/113364/downloaders/">18670 downloads</a></span><br />
+        <a class="comments" href="/people/silversatyr/sounds/113364/#comments">47 comments</a>
+
+        <div class="sound_attributes">
+
+            
+
+            
+            <a class="similar" rel="nofollow" href="/people/silversatyr/sounds/113364/similar/">
+                <img src="/media/images/fugue-icons/icons/headphone--plus.png" width="16" height="16" alt="Similar" title="Similar Sounds" />
+            </a>
+            
+            
+            
+            
+            <!-- license icons -->
+            
+            
+            
+                <img class="cc_license" src="/media/images/licenses/by.png" width="16" height="16" alt="Creative Commons Attribution license" title="This sound is licensed under the Creative Commons Attribution license." />
+            
+            
+            <!-- /license icons -->
+
+        </div><!-- .sound_attributes -->
+    </div><!-- .sample_information -->
+</div><!-- .sample_player_small -->
+
+
+
+
+
+
+                
+            
+                
+
+
+
+
+
+
+
+<div class="sample_player_small" id="259608">
+
+    
+
+    <div class="sample_player ">
+        <div class="small_player">
+            <div class="player small">
+    <div class="metadata">
+        <a class="mp3_file" href="/data/previews/259/259608_4841074-lq.mp3" title="mp3 file">Baby Cry 2.wav - mp3 version</a>
+<a class="ogg_file" href="/data/previews/259/259608_4841074-lq.ogg" title="ogg file">Baby Cry 2.wav - ogg version</a>
+<a class="waveform" href="/data/displays/259/259608_4841074_wave_M.png"
+   title="waveform file">Baby Cry 2.wav - waveform</a>
+<a class="spectrum" href="/data/displays/259/259608_4841074_spec_M.jpg"
+   title="spectrogram file">Baby Cry 2.wav - spectrogram</a>
+<span class="duration" title="duration in seconds">23682.9</span>
+
+    </div>
+</div>
+
+        </div><!-- .small_player -->
+
+        <div class="sound_title">
+            <div class="sound_filename">
+               <a class="title" href="/people/Stevious42/sounds/259608/" title="Baby Cry 2.wav">Baby Cry 2.wav</a>
+            </div><!-- .sound_filename -->
+            <div class="sound_stars">
+               <ul class="star-rating">
+    <li class="current-rating" style="width:78%;">Currently /5 Stars.</li>
+    
+</ul>
+            </div><!-- .sound_stars -->
+
+            <div class="sound_description">
+                <p class="description">A baby crying</p>
+            </div><!-- .sound_description -->
+
+            <div class="sound_tags">
+
+                <ul class="tags">
+                    
+                        <li><a href="/browse/tags/babbling/">babbling</a></li>
+                    
+                        <li><a href="/browse/tags/infant/">infant</a></li>
+                    
+                        <li><a href="/browse/tags/cry/">cry</a></li>
+                    
+                        <li><a href="/browse/tags/newborn/">newborn</a></li>
+                    
+                        <li><a href="/browse/tags/crying/">crying</a></li>
+                    
+                        <li><a href="/browse/tags/child/">child</a></li>
+                    
+                        <li><a href="/browse/tags/baby/">baby</a></li>
+                    
+                        <li><a href="/browse/tags/kid/">kid</a></li>
+                    
+                </ul>
+                <br style="clear: both;"/>
+
+            </div><!-- .sound_tags -->
+
+            <div id="bookmark_form_259608" class="bookmark_form"></div> <!-- to be filled dynamically with ajax -->
+
+            
+
+          </div><!-- .sound_title -->
+    </div><!-- .sample_player -->
+
+    <div class="sample_information ">
+        <a class="user" href="/people/Stevious42/">Stevious42</a><br />
+        <span class="date">December 28th, 2014</span><br />
+        <span class="download_count"><a href="/people/Stevious42/sounds/259608/downloaders/">4247 downloads</a></span><br />
+        <a class="comments" href="/people/Stevious42/sounds/259608/#comments">6 comments</a>
+
+        <div class="sound_attributes">
+
+            
+
+            
+            <a class="similar" rel="nofollow" href="/people/Stevious42/sounds/259608/similar/">
+                <img src="/media/images/fugue-icons/icons/headphone--plus.png" width="16" height="16" alt="Similar" title="Similar Sounds" />
+            </a>
+            
+            
+            
+            
+            <!-- license icons -->
+            
+            
+            
+                <img class="cc_license" src="/media/images/licenses/by.png" width="16" height="16" alt="Creative Commons Attribution license" title="This sound is licensed under the Creative Commons Attribution license." />
+            
+            
+            <!-- /license icons -->
+
+        </div><!-- .sound_attributes -->
+    </div><!-- .sample_information -->
+</div><!-- .sample_player_small -->
+
+
+
+
+
+
+                
+            
+                
+
+
+
+
+
+
+
+<div class="sample_player_small" id="259606">
+
+    
+
+    <div class="sample_player ">
+        <div class="small_player">
+            <div class="player small">
+    <div class="metadata">
+        <a class="mp3_file" href="/data/previews/259/259606_4841074-lq.mp3" title="mp3 file">Baby Cry.wav - mp3 version</a>
+<a class="ogg_file" href="/data/previews/259/259606_4841074-lq.ogg" title="ogg file">Baby Cry.wav - ogg version</a>
+<a class="waveform" href="/data/displays/259/259606_4841074_wave_M.png"
+   title="waveform file">Baby Cry.wav - waveform</a>
+<a class="spectrum" href="/data/displays/259/259606_4841074_spec_M.jpg"
+   title="spectrogram file">Baby Cry.wav - spectrogram</a>
+<span class="duration" title="duration in seconds">18481.6</span>
+
+    </div>
+</div>
+
+        </div><!-- .small_player -->
+
+        <div class="sound_title">
+            <div class="sound_filename">
+               <a class="title" href="/people/Stevious42/sounds/259606/" title="Baby Cry.wav">Baby Cry.wav</a>
+            </div><!-- .sound_filename -->
+            <div class="sound_stars">
+               <ul class="star-rating">
+    <li class="current-rating" style="width:82%;">Currently /5 Stars.</li>
+    
+</ul>
+            </div><!-- .sound_stars -->
+
+            <div class="sound_description">
+                <p class="description">A baby crying</p>
+            </div><!-- .sound_description -->
+
+            <div class="sound_tags">
+
+                <ul class="tags">
+                    
+                        <li><a href="/browse/tags/babbling/">babbling</a></li>
+                    
+                        <li><a href="/browse/tags/infant/">infant</a></li>
+                    
+                        <li><a href="/browse/tags/cry/">cry</a></li>
+                    
+                        <li><a href="/browse/tags/newborn/">newborn</a></li>
+                    
+                        <li><a href="/browse/tags/crying/">crying</a></li>
+                    
+                        <li><a href="/browse/tags/child/">child</a></li>
+                    
+                        <li><a href="/browse/tags/baby/">baby</a></li>
+                    
+                        <li><a href="/browse/tags/kid/">kid</a></li>
+                    
+                </ul>
+                <br style="clear: both;"/>
+
+            </div><!-- .sound_tags -->
+
+            <div id="bookmark_form_259606" class="bookmark_form"></div> <!-- to be filled dynamically with ajax -->
+
+            
+
+          </div><!-- .sound_title -->
+    </div><!-- .sample_player -->
+
+    <div class="sample_information ">
+        <a class="user" href="/people/Stevious42/">Stevious42</a><br />
+        <span class="date">December 28th, 2014</span><br />
+        <span class="download_count"><a href="/people/Stevious42/sounds/259606/downloaders/">3057 downloads</a></span><br />
+        <a class="comments" href="/people/Stevious42/sounds/259606/#comments">8 comments</a>
+
+        <div class="sound_attributes">
+
+            
+
+            
+            <a class="similar" rel="nofollow" href="/people/Stevious42/sounds/259606/similar/">
+                <img src="/media/images/fugue-icons/icons/headphone--plus.png" width="16" height="16" alt="Similar" title="Similar Sounds" />
+            </a>
+            
+            
+            
+            
+            <!-- license icons -->
+            
+            
+            
+                <img class="cc_license" src="/media/images/licenses/by.png" width="16" height="16" alt="Creative Commons Attribution license" title="This sound is licensed under the Creative Commons Attribution license." />
+            
+            
+            <!-- /license icons -->
+
+        </div><!-- .sound_attributes -->
+    </div><!-- .sample_information -->
+</div><!-- .sample_player_small -->
+
+
+
+
+
+
+                
+            
+                
+
+
+
+
+
+
+
+<div class="sample_player_small" id="346663">
+
+    
+
+    <div class="sample_player ">
+        <div class="small_player">
+            <div class="player small">
+    <div class="metadata">
+        <a class="mp3_file" href="/data/previews/346/346663_2104797-lq.mp3" title="mp3 file">Baby Cry.wav - mp3 version</a>
+<a class="ogg_file" href="/data/previews/346/346663_2104797-lq.ogg" title="ogg file">Baby Cry.wav - ogg version</a>
+<a class="waveform" href="/data/displays/346/346663_2104797_wave_M.png"
+   title="waveform file">Baby Cry.wav - waveform</a>
+<a class="spectrum" href="/data/displays/346/346663_2104797_spec_M.jpg"
+   title="spectrogram file">Baby Cry.wav - spectrogram</a>
+<span class="duration" title="duration in seconds">12641.6</span>
+
+    </div>
+</div>
+
+        </div><!-- .small_player -->
+
+        <div class="sound_title">
+            <div class="sound_filename">
+               <a class="title" href="/people/Adam_N/sounds/346663/" title="Baby Cry.wav">Baby Cry.wav</a>
+            </div><!-- .sound_filename -->
+            <div class="sound_stars">
+               <ul class="star-rating">
+    <li class="current-rating" style="width:80%;">Currently /5 Stars.</li>
+    
+</ul>
+            </div><!-- .sound_stars -->
+
+            <div class="sound_description">
+                <p class="description">Baby crying.</p>
+            </div><!-- .sound_description -->
+
+            <div class="sound_tags">
+
+                <ul class="tags">
+                    
+                        <li><a href="/browse/tags/infant/">infant</a></li>
+                    
+                        <li><a href="/browse/tags/cry/">cry</a></li>
+                    
+                        <li><a href="/browse/tags/young/">young</a></li>
+                    
+                        <li><a href="/browse/tags/newborn/">newborn</a></li>
+                    
+                        <li><a href="/browse/tags/crying/">crying</a></li>
+                    
+                        <li><a href="/browse/tags/child/">child</a></li>
+                    
+                        <li><a href="/browse/tags/baby/">baby</a></li>
+                    
+                </ul>
+                <br style="clear: both;"/>
+
+            </div><!-- .sound_tags -->
+
+            <div id="bookmark_form_346663" class="bookmark_form"></div> <!-- to be filled dynamically with ajax -->
+
+            
+
+          </div><!-- .sound_title -->
+    </div><!-- .sample_player -->
+
+    <div class="sample_information ">
+        <a class="user" href="/people/Adam_N/">Adam_N</a><br />
+        <span class="date">May 31st, 2016</span><br />
+        <span class="download_count"><a href="/people/Adam_N/sounds/346663/downloaders/">4103 downloads</a></span><br />
+        <a class="comments" href="/people/Adam_N/sounds/346663/#comments">7 comments</a>
+
+        <div class="sound_attributes">
+
+            
+
+            
+            <a class="similar" rel="nofollow" href="/people/Adam_N/sounds/346663/similar/">
+                <img src="/media/images/fugue-icons/icons/headphone--plus.png" width="16" height="16" alt="Similar" title="Similar Sounds" />
+            </a>
+            
+            
+            <a class="pack" href="/people/Adam_N/packs/18220/">
+                <img src="/media/images/fugue-icons/icons/folder-open-document-music.png" width="16" height="16" alt="Pack" title="This sound belongs to the pack: Human" />
+            </a>
+            
+            
+            
+            <!-- license icons -->
+            
+            
+                <img class="cc_license" src="/media/images/licenses/nolaw.png" width="16" height="16" alt="Public Domain license" title="This sound is public domain." />
+            
+            
+            
+            <!-- /license icons -->
+
+        </div><!-- .sound_attributes -->
+    </div><!-- .sample_information -->
+</div><!-- .sample_player_small -->
+
+
+
+
+
+
+                
+            
+                
+
+
+
+
+
+
+
+<div class="sample_player_small" id="136480">
+
+    
+
+    <div class="sample_player ">
+        <div class="small_player">
+            <div class="player small">
+    <div class="metadata">
+        <a class="mp3_file" href="/data/previews/136/136480_2498982-lq.mp3" title="mp3 file">kid crying.wav - mp3 version</a>
+<a class="ogg_file" href="/data/previews/136/136480_2498982-lq.ogg" title="ogg file">kid crying.wav - ogg version</a>
+<a class="waveform" href="/data/displays/136/136480_2498982_wave_M.png"
+   title="waveform file">kid crying.wav - waveform</a>
+<a class="spectrum" href="/data/displays/136/136480_2498982_spec_M.jpg"
+   title="spectrogram file">kid crying.wav - spectrogram</a>
+<span class="duration" title="duration in seconds">7558.1</span>
+
+    </div>
+</div>
+
+        </div><!-- .small_player -->
+
+        <div class="sound_title">
+            <div class="sound_filename">
+               <a class="title" href="/people/hinsinger/sounds/136480/" title="kid crying.wav">kid crying.wav</a>
+            </div><!-- .sound_filename -->
+            <div class="sound_stars">
+               <ul class="star-rating">
+    <li class="current-rating" style="width:55%;">Currently /5 Stars.</li>
+    
+</ul>
+            </div><!-- .sound_stars -->
+
+            <div class="sound_description">
+                <p class="description">a kid is crying</p>
+            </div><!-- .sound_description -->
+
+            <div class="sound_tags">
+
+                <ul class="tags">
+                    
+                        <li><a href="/browse/tags/llanto/">llanto</a></li>
+                    
+                        <li><a href="/browse/tags/yell/">yell</a></li>
+                    
+                        <li><a href="/browse/tags/kids/">kids</a></li>
+                    
+                        <li><a href="/browse/tags/cry/">cry</a></li>
+                    
+                </ul>
+                <br style="clear: both;"/>
+
+            </div><!-- .sound_tags -->
+
+            <div id="bookmark_form_136480" class="bookmark_form"></div> <!-- to be filled dynamically with ajax -->
+
+            
+
+          </div><!-- .sound_title -->
+    </div><!-- .sample_player -->
+
+    <div class="sample_information ">
+        <a class="user" href="/people/hinsinger/">hinsinger</a><br />
+        <span class="date">December 3rd, 2011</span><br />
+        <span class="download_count"><a href="/people/hinsinger/sounds/136480/downloaders/">2270 downloads</a></span><br />
+        <a class="comments" href="/people/hinsinger/sounds/136480/#comments">3 comments</a>
+
+        <div class="sound_attributes">
+
+            
+
+            
+            <a class="similar" rel="nofollow" href="/people/hinsinger/sounds/136480/similar/">
+                <img src="/media/images/fugue-icons/icons/headphone--plus.png" width="16" height="16" alt="Similar" title="Similar Sounds" />
+            </a>
+            
+            
+            
+            
+            <!-- license icons -->
+            
+            
+            
+                <img class="cc_license" src="/media/images/licenses/by.png" width="16" height="16" alt="Creative Commons Attribution license" title="This sound is licensed under the Creative Commons Attribution license." />
+            
+            
+            <!-- /license icons -->
+
+        </div><!-- .sound_attributes -->
+    </div><!-- .sample_information -->
+</div><!-- .sample_player_small -->
+
+
+
+
+
+
+                
+            
+                
+
+
+
+
+
+
+
+<div class="sample_player_small" id="405204">
+
+    
+
+    <div class="sample_player ">
+        <div class="small_player">
+            <div class="player small">
+    <div class="metadata">
+        <a class="mp3_file" href="/data/previews/405/405204_6616150-lq.mp3" title="mp3 file">crying.wav - mp3 version</a>
+<a class="ogg_file" href="/data/previews/405/405204_6616150-lq.ogg" title="ogg file">crying.wav - ogg version</a>
+<a class="waveform" href="/data/displays/405/405204_6616150_wave_M.png"
+   title="waveform file">crying.wav - waveform</a>
+<a class="spectrum" href="/data/displays/405/405204_6616150_spec_M.jpg"
+   title="spectrogram file">crying.wav - spectrogram</a>
+<span class="duration" title="duration in seconds">47018.7</span>
+
+    </div>
+</div>
+
+        </div><!-- .small_player -->
+
+        <div class="sound_title">
+            <div class="sound_filename">
+               <a class="title" href="/people/drotzruhn/sounds/405204/" title="crying.wav">crying.wav</a>
+            </div><!-- .sound_filename -->
+            <div class="sound_stars">
+               <ul class="star-rating">
+    <li class="current-rating" style="width:93%;">Currently /5 Stars.</li>
+    
+</ul>
+            </div><!-- .sound_stars -->
+
+            <div class="sound_description">
+                <p class="description">Woman crying.</p>
+            </div><!-- .sound_description -->
+
+            <div class="sound_tags">
+
+                <ul class="tags">
+                    
+                        <li><a href="/browse/tags/weep/">weep</a></li>
+                    
+                        <li><a href="/browse/tags/sorrow/">sorrow</a></li>
+                    
+                        <li><a href="/browse/tags/voice/">voice</a></li>
+                    
+                        <li><a href="/browse/tags/emotional/">emotional</a></li>
+                    
+                        <li><a href="/browse/tags/acting/">acting</a></li>
+                    
+                        <li><a href="/browse/tags/crying/">crying</a></li>
+                    
+                        <li><a href="/browse/tags/sadness/">sadness</a></li>
+                    
+                        <li><a href="/browse/tags/grief/">grief</a></li>
+                    
+                        <li><a href="/browse/tags/sad/">sad</a></li>
+                    
+                        <li><a href="/browse/tags/tears/">tears</a></li>
+                    
+                        <li><a href="/browse/tags/whine/">whine</a></li>
+                    
+                        <li><a href="/browse/tags/cry/">cry</a></li>
+                    
+                        <li><a href="/browse/tags/human/">human</a></li>
+                    
+                        <li><a href="/browse/tags/female/">female</a></li>
+                    
+                        <li><a href="/browse/tags/woman/">woman</a></li>
+                    
+                        <li><a href="/browse/tags/heartache/">heartache</a></li>
+                    
+                </ul>
+                <br style="clear: both;"/>
+
+            </div><!-- .sound_tags -->
+
+            <div id="bookmark_form_405204" class="bookmark_form"></div> <!-- to be filled dynamically with ajax -->
+
+            
+
+          </div><!-- .sound_title -->
+    </div><!-- .sample_player -->
+
+    <div class="sample_information ">
+        <a class="user" href="/people/drotzruhn/">drotzruhn</a><br />
+        <span class="date">October 19th, 2017</span><br />
+        <span class="download_count"><a href="/people/drotzruhn/sounds/405204/downloaders/">7868 downloads</a></span><br />
+        <a class="comments" href="/people/drotzruhn/sounds/405204/#comments">27 comments</a>
+
+        <div class="sound_attributes">
+
+            
+
+            
+            <a class="similar" rel="nofollow" href="/people/drotzruhn/sounds/405204/similar/">
+                <img src="/media/images/fugue-icons/icons/headphone--plus.png" width="16" height="16" alt="Similar" title="Similar Sounds" />
+            </a>
+            
+            
+            
+            
+            <!-- license icons -->
+            
+            
+            
+                <img class="cc_license" src="/media/images/licenses/by.png" width="16" height="16" alt="Creative Commons Attribution license" title="This sound is licensed under the Creative Commons Attribution license." />
+            
+            
+            <!-- /license icons -->
+
+        </div><!-- .sound_attributes -->
+    </div><!-- .sample_information -->
+</div><!-- .sample_player_small -->
+
+
+
+
+
+
+                
+            
+                
+
+
+
+
+
+
+
+<div class="sample_player_small" id="445874">
+
+    
+
+    <div class="sample_player ">
+        <div class="small_player">
+            <div class="player small">
+    <div class="metadata">
+        <a class="mp3_file" href="/data/previews/445/445874_9244716-lq.mp3" title="mp3 file">09-Hombre1Llora.wav - mp3 version</a>
+<a class="ogg_file" href="/data/previews/445/445874_9244716-lq.ogg" title="ogg file">09-Hombre1Llora.wav - ogg version</a>
+<a class="waveform" href="/data/displays/445/445874_9244716_wave_M.png"
+   title="waveform file">09-Hombre1Llora.wav - waveform</a>
+<a class="spectrum" href="/data/displays/445/445874_9244716_spec_M.jpg"
+   title="spectrogram file">09-Hombre1Llora.wav - spectrogram</a>
+<span class="duration" title="duration in seconds">1402.15</span>
+
+    </div>
+</div>
+
+        </div><!-- .small_player -->
+
+        <div class="sound_title">
+            <div class="sound_filename">
+               <a class="title" href="/people/lauracarolina09/sounds/445874/" title="09-Hombre1Llora.wav">09-Hombre1Llora.wav</a>
+            </div><!-- .sound_filename -->
+            <div class="sound_stars">
+               <ul class="star-rating">
+    <li class="current-rating" style="width:0%;">Currently /5 Stars.</li>
+    
+</ul>
+            </div><!-- .sound_stars -->
+
+            <div class="sound_description">
+                <p class="description">crying</p>
+            </div><!-- .sound_description -->
+
+            <div class="sound_tags">
+
+                <ul class="tags">
+                    
+                        <li><a href="/browse/tags/sad/">sad</a></li>
+                    
+                        <li><a href="/browse/tags/crying/">crying</a></li>
+                    
+                        <li><a href="/browse/tags/cry/">cry</a></li>
+                    
+                        <li><a href="/browse/tags/emotional/">emotional</a></li>
+                    
+                        <li><a href="/browse/tags/depressed/">depressed</a></li>
+                    
+                </ul>
+                <br style="clear: both;"/>
+
+            </div><!-- .sound_tags -->
+
+            <div id="bookmark_form_445874" class="bookmark_form"></div> <!-- to be filled dynamically with ajax -->
+
+            
+
+          </div><!-- .sound_title -->
+    </div><!-- .sample_player -->
+
+    <div class="sample_information ">
+        <a class="user" href="/people/lauracarolina09/">lauracarolina09</a><br />
+        <span class="date">November 3rd, 2018</span><br />
+        <span class="download_count"><a href="/people/lauracarolina09/sounds/445874/downloaders/">337 downloads</a></span><br />
+        <a class="comments" href="/people/lauracarolina09/sounds/445874/#comments">1 comment</a>
+
+        <div class="sound_attributes">
+
+            
+
+            
+            <a class="similar" rel="nofollow" href="/people/lauracarolina09/sounds/445874/similar/">
+                <img src="/media/images/fugue-icons/icons/headphone--plus.png" width="16" height="16" alt="Similar" title="Similar Sounds" />
+            </a>
+            
+            
+            
+            
+            <!-- license icons -->
+            
+            
+                <img class="cc_license" src="/media/images/licenses/nolaw.png" width="16" height="16" alt="Public Domain license" title="This sound is public domain." />
+            
+            
+            
+            <!-- /license icons -->
+
+        </div><!-- .sound_attributes -->
+    </div><!-- .sample_information -->
+</div><!-- .sample_player_small -->
+
+
+
+
+
+
+                
+            
+                
+
+
+
+
+
+
+
+<div class="sample_player_small" id="152007">
+
+    
+
+    <div class="sample_player ">
+        <div class="small_player">
+            <div class="player small">
+    <div class="metadata">
+        <a class="mp3_file" href="/data/previews/152/152007_1237255-lq.mp3" title="mp3 file">babys crying.mp3 - mp3 version</a>
+<a class="ogg_file" href="/data/previews/152/152007_1237255-lq.ogg" title="ogg file">babys crying.mp3 - ogg version</a>
+<a class="waveform" href="/data/displays/152/152007_1237255_wave_M.png"
+   title="waveform file">babys crying.mp3 - waveform</a>
+<a class="spectrum" href="/data/displays/152/152007_1237255_spec_M.jpg"
+   title="spectrogram file">babys crying.mp3 - spectrogram</a>
+<span class="duration" title="duration in seconds">72933.3</span>
+
+    </div>
+</div>
+
+        </div><!-- .small_player -->
+
+        <div class="sound_title">
+            <div class="sound_filename">
+               <a class="title" href="/people/winsx87/sounds/152007/" title="babys crying.mp3">babys crying.mp3</a>
+            </div><!-- .sound_filename -->
+            <div class="sound_stars">
+               <ul class="star-rating">
+    <li class="current-rating" style="width:82%;">Currently /5 Stars.</li>
+    
+</ul>
+            </div><!-- .sound_stars -->
+
+            <div class="sound_description">
+                <p class="description">A baby cry</p>
+            </div><!-- .sound_description -->
+
+            <div class="sound_tags">
+
+                <ul class="tags">
+                    
+                        <li><a href="/browse/tags/baby/">baby</a></li>
+                    
+                        <li><a href="/browse/tags/little/">little</a></li>
+                    
+                        <li><a href="/browse/tags/cry/">cry</a></li>
+                    
+                </ul>
+                <br style="clear: both;"/>
+
+            </div><!-- .sound_tags -->
+
+            <div id="bookmark_form_152007" class="bookmark_form"></div> <!-- to be filled dynamically with ajax -->
+
+            
+
+          </div><!-- .sound_title -->
+    </div><!-- .sample_player -->
+
+    <div class="sample_information ">
+        <a class="user" href="/people/winsx87/">winsx87</a><br />
+        <span class="date">April 20th, 2012</span><br />
+        <span class="download_count"><a href="/people/winsx87/sounds/152007/downloaders/">5344 downloads</a></span><br />
+        <a class="comments" href="/people/winsx87/sounds/152007/#comments">9 comments</a>
+
+        <div class="sound_attributes">
+
+            
+
+            
+            <a class="similar" rel="nofollow" href="/people/winsx87/sounds/152007/similar/">
+                <img src="/media/images/fugue-icons/icons/headphone--plus.png" width="16" height="16" alt="Similar" title="Similar Sounds" />
+            </a>
+            
+            
+            
+            
+            <!-- license icons -->
+            
+            
+                <img class="cc_license" src="/media/images/licenses/nolaw.png" width="16" height="16" alt="Public Domain license" title="This sound is public domain." />
+            
+            
+            
+            <!-- /license icons -->
+
+        </div><!-- .sound_attributes -->
+    </div><!-- .sample_information -->
+</div><!-- .sample_player_small -->
+
+
+
+
+
+
+                
+            
+
+            <div class="search_paginator">
+                <ul class="pagination"><li class="disabled-previous-next">previous</li><li class="next-page"><a href="/search/?q=cry&amp;page=2#sound" title="Next Page">next</a></li><li class="current-page">1</li><li class="other-page"><a href="/search/?q=cry&amp;page=2#sound" title="Page 2">2</a></li><li class="other-page"><a href="/search/?q=cry&amp;page=3#sound" title="Page 3">3</a></li><li class="other-page"><a href="/search/?q=cry&amp;page=4#sound" title="Page 4">4</a></li><li class="other-page"><a href="/search/?q=cry&amp;page=5#sound" title="Page 5">5</a></li><li class="other-page"><a href="/search/?q=cry&amp;page=6#sound" title="Page 6">6</a></li><li class="other-page"><a href="/search/?q=cry&amp;page=7#sound" title="Page 7">7</a></li><li class="dots">...</li><li class="last-page"><a href="/search/?q=cry&amp;page=48#sound" title="Last Page">48</a></li><p class="number_of_results">
+            
+                &nbsp|&nbsp 1184 sounds
+            
+        </p></ul>
+
+
+            </div>
+        
+
+
+    
+
+
+
+</div> <!-- END of Content area -->
+
+<br class="clear" />
+
+
+
+        </div>
+        </div>
+
+    <div id="footer_wrapper">
+        <div id="footer">
+            <div id="cookie-bar">
+                <div style="float:left">
+                    <p>
+                        We use cookies to ensure you get the best experience on our website. By browsing our site you agree to our use of cookies.
+                        <br>
+                        For more information check out our <a href="/help/cookies_policy">cookies policy</a>.
+                    </p>
+                </div>
+                <div style="float:right; margin-top:10px;margin-right:10px;">
+                    <button id="cookie-accept">Ok</button>
+                </div>
+                <br class="clear">
+
+            </div>
+            <div id="footer_links">
+                <a href="/help/developers/">Developers</a>
+                <a href="https://blog.freesound.org/">Blog</a>
+                <a href="/help/about/">About</a>
+                
+                <a href="/help/tos_web/">Terms of use</a>
+            </div>
+            <div id="footer_credits">
+                Design by <a href="http://www.pixelshell.com">Pixelshell</a>. Code by <a href="https://www.upf.edu/web/mtg">MTG (UPF)</a>. Some Rights Reserved.
+            </div>
+            </div>
+        </div>
+
+        <div id="fsmodal" class="modal"></div>
+    </body>
+
+</html>
